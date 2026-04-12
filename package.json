@@ -3,7 +3,7 @@
   "name": "trek-ui",
   "version": "1.0.0",
   "bin": {
-    "trek-ui": "./dist/cli.cjs"
+    "trek-ui": "./dist/cli/cli.cjs"
   },
   "files": [
     "./dist"
