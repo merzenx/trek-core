@@ -64,7 +64,7 @@ jobs:
         run: pnpm build
         
       - name: publish to NPM
-        run: pnpm publish --access public --no-git-checks --tag latest --dry-run
+        run: pnpm publish --access public --no-git-checks --tag latest
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
