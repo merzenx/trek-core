@@ -1,9 +1,9 @@
 {
   "$schema": "https://json.schemastore.org/package",
-  "name": "trek-ui",
-  "version": "1.0.0",
+  "name": "trek-core",
+  "version": "0.0.0",
   "bin": {
-    "trek-ui": "./dist/cli/cli.cjs"
+    "trek-core": "./dist/cli/cli.cjs"
   },
   "files": [
     "./dist"

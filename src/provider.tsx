@@ -18,7 +18,7 @@ export const useThemeStore = create<ThemeState>()(
       setTheme: (theme) => set({ theme }),
     }),
     {
-      name: "trek-ui-theme",
+      name: "trek-core-theme",
     },
   ),
 );
@@ -87,4 +87,4 @@ export function TrekProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-export {};
+export { };

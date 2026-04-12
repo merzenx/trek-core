@@ -1,4 +1,4 @@
-import { Button, Card, CardDescription, CardTitle } from "trek-ui";
+import { Button, Card, CardDescription, CardTitle } from "trek-core";
 
 function App() {
   return (

@@ -16,7 +16,7 @@ import { join, resolve } from "node:path";
 import { program } from "commander";
 import { input, select } from "@inquirer/prompts";
 
-const REPO = "merzenx/trek-ui";
+const REPO = "merzenx/trek-core";
 const PROJECT_GITHUB_URL = `https://github.com/${REPO}`;
 
 type ExampleMeta = { name: string; path: string };
@@ -26,9 +26,7 @@ const fetch_metadata = async (): Promise<ExampleMeta[]> => {
     `https://raw.githubusercontent.com/${REPO}/refs/heads/main/examples/metadata.json`,
   );
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch examples list (${response.status}): ${response.statusText}`,
-    );
+    throw new Error(`Failed to fetch examples list (${response.status}): ${response.statusText}`);
   }
   const metadata = (await response.json()) as { examples: ExampleMeta[] };
   return metadata.examples;
@@ -101,8 +99,8 @@ function patchPackageJsonForStandalone(projectRoot: string, displayName: string)
     dependencies?: Record<string, string>;
   };
   pkg.name = npmPackageNameFromDirName(displayName);
-  if (pkg.dependencies?.["trek-ui"] === "workspace:*") {
-    pkg.dependencies["trek-ui"] = trekUiDependencyRange();
+  if (pkg.dependencies?.["trek-core"] === "workspace:*") {
+    pkg.dependencies["trek-core"] = trekUiDependencyRange();
   }
   writeFileSync(pkgPath, `${JSON.stringify(pkg, null, 2)}\n`, "utf8");
 }

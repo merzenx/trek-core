@@ -1,0 +1,90 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+    
+jobs:
+  check-version:
+    runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.check-version.outputs.changed }}
+      version: ${{ steps.check-version.outputs.version }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Check version
+        id: check-version
+        run: |
+          latest_git_tag=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
+          latest_git_tag=$(echo $latest_git_tag | sed 's/v//')
+          current_version=$(jq -r .version package.json)
+
+          echo "Current version: $current_version"
+          echo "Latest git tag: $latest_git_tag"
+
+          # change directory to /tmp to avoid conflict with pnpm 
+          cd /tmp
+          bun add semver@latest
+          changed=$(bun -e "import {gt} from 'semver'; console.log(gt('$current_version', '$latest_git_tag'))")
+          echo "changed=$changed" >> $GITHUB_OUTPUT
+          echo "version=$current_version" >> $GITHUB_OUTPUT
+
+  release:
+    runs-on: ubuntu-latest
+    needs: check-version
+    if: needs.check-version.outputs.changed == 'true'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: '10.32.1'
+          run_install: false
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm build
+        
+      - name: publish to NPM
+        run: pnpm publish --access public --no-git-checks --tag latest --dry-run
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag_name: v${{ needs.check-version.outputs.version }}
+          name: Release v${{ needs.check-version.outputs.version }}
+          body: |
+            ## Changes
+            
+            - Version: ${{ needs.check-version.outputs.version }}
+            
+            ## Installation
+            
+            ```bash
+            pnpm add trek-core@${{ needs.check-version.outputs.version }}
+            ```
+        
+        
+        
+        
+
+        
