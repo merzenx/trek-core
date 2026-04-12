@@ -3,6 +3,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/sonner";
+import { ToasterProps } from "sonner";
 
 export type Theme = "dark" | "light" | "system";
 
@@ -22,10 +23,6 @@ export const useThemeStore = create<ThemeState>()(
     },
   ),
 );
-
-export const TestTrek = () => {
-  return <h1 className="bg-amber-500">test trek</h1>;
-};
 
 export function useTheme() {
   const { theme, setTheme } = useThemeStore();
@@ -76,15 +73,15 @@ function ThemeProvider({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }
 
-export function TrekProvider({ children }: { children: React.ReactNode }) {
+export function TrekProvider({ children, toastConfig }: { children: React.ReactNode, toastConfig?: ToasterProps }) {
   return (
     <ThemeProvider>
       <TooltipProvider>
         {children}
-        <Toaster />
+        <Toaster {...toastConfig} />
       </TooltipProvider>
     </ThemeProvider>
   );
 }
 
-export {};
+export { };
