@@ -87,4 +87,4 @@ export function TrekProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-export { };
+export {};

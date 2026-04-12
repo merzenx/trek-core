@@ -1,14 +1,19 @@
-import { Button, Card, CardDescription, CardTitle } from "trek-core";
+import { Button } from "trek-core";
 
 function App() {
   return (
-    <div>
-      <h1 className="bg-amber-500 text-white font-bold">Tailwind (this work)</h1>
-      <Button variant="ghost">test button</Button>
-      <Card>
-        <CardTitle>A title (not working)</CardTitle>
-        <CardDescription> A Decs (not working)</CardDescription>
-      </Card>
+    <div className="min-h-screen flex flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-3xl text-center space-y-8">
+        <h1 className="text-4xl font-bold sm:text-5xl">
+          UI Components for <span className="text-blue-500 font-bold">Trek</span> Projects
+        </h1>
+        <p className="text-lg">
+          Beautifully designed components built with Tailwind CSS and Shadcn UI
+        </p>
+        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <Button variant="default">Get Started</Button>
+        </div>
+      </div>
     </div>
   );
 }
