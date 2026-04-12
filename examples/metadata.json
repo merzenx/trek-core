@@ -1,0 +1,8 @@
+{
+  "examples": [
+    {
+      "name": "vite",
+      "path": "examples/vite"
+    }
+  ]
+}
