@@ -1,4 +1,4 @@
-import { Button } from "trek-core";
+import { Button } from "trek-core/ui";
 
 function App() {
   return (
