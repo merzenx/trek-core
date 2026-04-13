@@ -59,6 +59,8 @@ const handleTheme = (theme: Theme, isInit: boolean = false) => {
     return;
   }
 
+  //TODO: handle custom themes object save to localStorage.
+
   if (themes[theme]) {
     const themeData = themes[theme];
     for (const [key, value] of Object.entries(themeData.colors)) {
@@ -77,11 +79,13 @@ const handleTheme = (theme: Theme, isInit: boolean = false) => {
 export function useTheme() {
   const { theme, setTheme } = useThemeStore();
   const mounted = React.useRef(false);
-  const { query } = useNUI("setTheme", { lazy: true });
+  const { query } = useNUI("theme:set", { lazy: true });
 
   React.useEffect(() => {
     mounted.current = true;
   }, []);
+
+  // TODO: Handle body passing theme objects instead of theme name. prevent syntax version missing
 
   React.useEffect(() => {
     if (!mounted.current) return;
