@@ -6,6 +6,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { ToasterProps } from "sonner";
 import tokyoNightTheme from "@/themes/tokyonight";
 import gruvboxTheme from "@/themes/gruvbox";
+import { useNUI, useNUIEvent } from "./api";
 
 interface ThemeConfig {
   name: string;
@@ -76,6 +77,7 @@ const handleTheme = (theme: Theme, isInit: boolean = false) => {
 export function useTheme() {
   const { theme, setTheme } = useThemeStore();
   const mounted = React.useRef(false);
+  const { query } = useNUI("setTheme", { lazy: true });
 
   React.useEffect(() => {
     mounted.current = true;
@@ -83,6 +85,7 @@ export function useTheme() {
 
   React.useEffect(() => {
     if (!mounted.current) return;
+    query({ body: { theme } });
     handleTheme(theme);
   }, [theme]);
 
@@ -91,6 +94,9 @@ export function useTheme() {
 
 function ThemeProvider({ children }: { children: React.ReactNode }) {
   const { theme } = useThemeStore();
+  useNUIEvent("theme:set", (data) => {
+    handleTheme(data.theme);
+  });
 
   React.useEffect(() => {
     handleTheme(theme, true);

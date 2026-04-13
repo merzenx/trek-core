@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback, useRef } from "react";
 
 interface NUIOptions {
   body?: any;
+  lazy?: boolean;
 }
 
 /**
@@ -9,8 +10,12 @@ interface NUIOptions {
  * @param endpoint
  * @param options
  */
-
-export const useNUI = (endpoint: string, options: NUIOptions = {}) => {
+export const useNUI = (
+  endpoint: string,
+  options: NUIOptions = {
+    lazy: true,
+  },
+) => {
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
@@ -40,22 +45,29 @@ export const useNUI = (endpoint: string, options: NUIOptions = {}) => {
     [resourceName],
   );
 
-  const fetchData = useCallback(async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const result = await sendNUI(endpoint, options);
-      setData(result);
-    } catch (err) {
-      setError(err as Error);
-      console.error(`Failed to fetch NUI endpoint: ${endpoint}`, err);
-    } finally {
-      setLoading(false);
-    }
-  }, [endpoint, options, sendNUI]);
+  const fetchData = useCallback(
+    async (overrideOptions?: any) => {
+      setLoading(true);
+      setError(null);
+      try {
+        const result = await sendNUI(endpoint, overrideOptions || options);
+        setData(result);
+        return result;
+      } catch (err) {
+        setError(err as Error);
+        console.error(`Failed to fetch NUI endpoint: ${endpoint}`, err);
+        throw err;
+      } finally {
+        setLoading(false);
+      }
+    },
+    [endpoint, options, sendNUI],
+  );
 
   useEffect(() => {
-    fetchData();
+    if (!options.lazy) {
+      fetchData();
+    }
   }, []);
 
   useEffect(() => {
@@ -75,6 +87,7 @@ export const useNUI = (endpoint: string, options: NUIOptions = {}) => {
     loading,
     error,
     refetch: fetchData,
+    query: fetchData,
   };
 };
 
