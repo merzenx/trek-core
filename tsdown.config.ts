@@ -25,6 +25,16 @@ const uiConfig = defineConfig({
   external: ["react", "react-dom"],
 });
 
+const themeConfig = defineConfig({
+  entry: ["./src/themes/index.ts"],
+  outDir: "dist/ui/theme",
+  format: ["module"],
+  dts: true,
+  treeshake: true,
+  clean: true,
+  external: ["react", "react-dom"],
+});
+
 const cliConfig = defineConfig({
   entry: ["./src/cli.ts"],
   outDir: "dist/cli",
@@ -32,7 +42,6 @@ const cliConfig = defineConfig({
   dts: false,
   treeshake: true,
   clean: true,
-
 });
 
 const apiConfig = defineConfig({
@@ -44,4 +53,4 @@ const apiConfig = defineConfig({
   clean: true,
 });
 
-export default [mainConfig, uiConfig, cliConfig, apiConfig];
+export default [mainConfig, uiConfig, themeConfig, cliConfig, apiConfig];

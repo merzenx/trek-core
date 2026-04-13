@@ -16,11 +16,11 @@ export default defineConfig({
           minSize: 20000,
           groups: [
             {
-              name: 'react',
+              name: "react",
               test: /react|react-dom/,
             },
             {
-              name: 'vendor',
+              name: "vendor",
               test: /node_modules/,
             },
           ],

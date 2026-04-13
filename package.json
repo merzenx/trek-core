@@ -2,13 +2,13 @@
   "$schema": "https://json.schemastore.org/package",
   "name": "trek-core",
   "version": "0.0.0",
-  "type": "module",
   "bin": {
     "trek-core": "./dist/cli/cli.cjs"
   },
   "files": [
     "./dist"
   ],
+  "type": "module",
   "exports": {
     ".": {
       "import": "./dist/index.mjs",
@@ -17,6 +17,10 @@
     "./ui": {
       "import": "./dist/ui/index.mjs",
       "types": "./dist/ui/index.d.mts"
+    },
+    "./ui/theme": {
+      "import": "./dist/ui/theme/index.mjs",
+      "types": "./dist/ui/theme/index.d.mts"
     },
     "./api": {
       "import": "./dist/api/index.mjs",

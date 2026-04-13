@@ -1,7 +1,16 @@
-import { Button } from "trek-core/ui";
+import {
+  Button,
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuTrigger,
+} from "trek-core/ui";
 import { toast } from "sonner";
+import { useTheme, Theme } from "trek-core";
 
 function App() {
+  const { setTheme, theme } = useTheme();
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -13,7 +22,25 @@ function App() {
           Beautifully designed components built with Tailwind CSS and Shadcn UI
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Button onClick={() => toast.success("Get Started")} > Get Started</Button>
+          <Button onClick={() => toast.success("Get Started")}> Get Started</Button>
+        </div>
+        <div className="flex items-center">
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <Button>{theme}</Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              {Object.values(Theme).map((_theme) => (
+                <DropdownMenuCheckboxItem
+                  checked={theme === _theme}
+                  key={_theme}
+                  onClick={() => setTheme(_theme)}
+                >
+                  {_theme}
+                </DropdownMenuCheckboxItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
     </div>
