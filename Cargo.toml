@@ -1,0 +1,16 @@
+[package]
+name = "trek-ui"
+edition = "2024"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+path = "rs/lib.rs"
+
+[dependencies]
+wasm-bindgen = "0.2.92"
+
+[profile.release]
+lto = true
+opt-level = "z"
+codegen-units = 1
+panic = "abort"

@@ -9,6 +9,10 @@
     "./dist"
   ],
   "type": "module",
+  "sideEffects": [
+    "./dist/wasm/trek_ui.js",
+    "./dist/wasm/trek_ui_bg.wasm"
+  ],
   "exports": {
     ".": {
       "import": "./dist/index.mjs",
@@ -29,6 +33,18 @@
     "./trek.css": {
       "import": "./dist/ui/trek.css",
       "default": "./dist/ui/trek.css"
+    },
+    "./wasm": {
+      "import": "./dist/wasm/trek_ui.js",
+      "types": "./dist/wasm/trek_ui.d.ts"
+    },
+    "./wasm/*": {
+      "import": "./dist/wasm/*.js",
+      "types": "./dist/wasm/*.d.ts"
+    },
+    "./wasm/trek_ui_bg.wasm": {
+      "import": "./dist/wasm/trek_ui_bg.wasm",
+      "default": "./dist/wasm/trek_ui_bg.wasm"
     }
   },
   "scripts": {

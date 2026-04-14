@@ -79,7 +79,7 @@ const handleTheme = (theme: Theme, isInit: boolean = false) => {
 export function useTheme() {
   const { theme, setTheme } = useThemeStore();
   const mounted = React.useRef(false);
-  const { query } = useNUI("theme:set", { lazy: true });
+  // const { query } = useNUI("theme:set", { lazy: true });
 
   React.useEffect(() => {
     mounted.current = true;
@@ -87,20 +87,20 @@ export function useTheme() {
 
   // TODO: Handle body passing theme objects instead of theme name. prevent syntax version missing
 
-  React.useEffect(() => {
-    if (!mounted.current) return;
-    query({ body: { theme } });
-    handleTheme(theme);
-  }, [theme]);
+  // React.useEffect(() => {
+  //   if (!mounted.current) return;
+  //   query({ body: { theme } });
+  //   handleTheme(theme);
+  // }, [theme]);
 
   return { theme, setTheme };
 }
 
 function ThemeProvider({ children }: { children: React.ReactNode }) {
   const { theme } = useThemeStore();
-  useNUIEvent("theme:set", (data) => {
-    handleTheme(data.theme);
-  });
+  // useNUIEvent("theme:set", (data) => {
+  //   handleTheme(data.theme);
+  // });
 
   React.useEffect(() => {
     handleTheme(theme, true);
