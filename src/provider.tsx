@@ -46,10 +46,11 @@ export const useThemeStore = create<ThemeState>()(
 
 const handleTheme = (theme: Theme, isInit: boolean = false) => {
   const root = window.document.documentElement;
-  root.classList.remove("light", "dark", "tokyonight");
-  root.removeAttribute("style");
 
   root.classList.add("disable-transitions");
+
+  root.classList.remove("light", "dark", "tokyonight", "gruvbox");
+  root.removeAttribute("style");
 
   if (theme === "system" && isInit) {
     const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
@@ -61,19 +62,24 @@ const handleTheme = (theme: Theme, isInit: boolean = false) => {
 
   //TODO: handle custom themes object save to localStorage.
 
-  if (themes[theme]) {
-    const themeData = themes[theme];
-    for (const [key, value] of Object.entries(themeData.colors)) {
-      const colorValue = (value as string).includes("%") ? `hsl(${value})` : value;
-      root.style.setProperty(`--${key}`, colorValue as string);
+  if (theme === "system" && isInit) {
+    const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light";
+    root.classList.add(systemTheme);
+  } else {
+    if (themes[theme]) {
+      const themeData = themes[theme];
+      for (const [key, value] of Object.entries(themeData.colors)) {
+        const colorValue = (value as string).includes("%") ? `hsl(${value})` : value;
+        root.style.setProperty(`--${key}`, colorValue as string);
+      }
     }
+    root.classList.add(theme);
   }
-
-  root.classList.add(theme);
-
-  setTimeout(() => {
-    root.classList.remove("disable-transitions");
-  }, 0);
+  // force reflow
+  window.getComputedStyle(root).opacity;
+  root.classList.remove("disable-transitions");
 };
 
 export function useTheme() {
