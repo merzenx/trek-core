@@ -10,6 +10,7 @@ export default defineConfig({
     babel({ presets: [reactCompilerPreset()] }),
   ],
   build: {
+    chunkSizeWarningLimit: 1000,
     rolldownOptions: {
       output: {
         codeSplitting: {
@@ -17,7 +18,7 @@ export default defineConfig({
           groups: [
             {
               name: "react",
-              test: /react|react-dom/,
+              test: /react/,
             },
             {
               name: "vendor",

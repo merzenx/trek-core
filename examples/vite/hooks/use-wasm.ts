@@ -5,7 +5,7 @@ import wasmUrl from "trek-core/wasm/trek_ui_bg.wasm?url";
 
 export const useWasm = () => {
   const [ready, setReady] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<Error | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -17,7 +17,7 @@ export const useWasm = () => {
         await init(wasmUrl);
         if (isMounted) setReady(true);
       } catch (err) {
-        if (isMounted) setError(err);
+        if (isMounted) setError(err as unknown as Error);
       } finally {
         if (isMounted) setLoading(false);
       }
