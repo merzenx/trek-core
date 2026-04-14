@@ -64,11 +64,20 @@ jobs:
           cache: "pnpm"
           registry-url: "https://registry.npmjs.org"
 
+      - name: Install Rust toolchain + WASM tools
+        uses: moonrepo/setup-rust@v0.3.0
+        with:
+          channel: stable
+          bins: wasm-bindgen-cli@1.2.118, wasm-opt
+          targets: wasm32-unknown-unknown
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build
-        run: pnpm build
+      - uses: extractions/setup-just@v2
+
+      - name: Bundle and build WASM
+        run: just build
 
       - name: publish to NPM
         run: pnpm publish --access public --no-git-checks --tag latest

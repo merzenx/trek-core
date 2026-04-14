@@ -1,7 +1,7 @@
-compile:
+compile-wasm:
 	cargo build --target wasm32-unknown-unknown --release
 
-bindgen:
+bindgen-wasm:
 	wasm-bindgen target/wasm32-unknown-unknown/release/trek_ui.wasm \
 		--out-dir dist/wasm \
 		--no-demangle \
@@ -13,6 +13,10 @@ bindgen:
 		-O3 \
 		--strip-debug
 
+build-wasm:
+	just compile-wasm
+	just bindgen-wasm
+
 build:
-	just compile
-	just bindgen
+	pnpm build
+	just build-wasm
