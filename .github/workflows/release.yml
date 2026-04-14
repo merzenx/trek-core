@@ -69,7 +69,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          bins: wasm-bindgen-cli@1.2.118, wasm-opt
+          bins: wasm-bindgen-cli@1.2.117, wasm-opt
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
